@@ -9,10 +9,18 @@ namespace Model
 
 		public string Name { get; set; }
 
+		public int Size { get; set; }
+
 		public Garage(string name, int baseSize)
 		{
 			_vehicles = new List<Vehicle>(baseSize);
 			Name = name;
+			Size = baseSize;
+		}
+
+		public override string ToString()
+		{
+			return $"{Name} [{_vehicles.Count} / {Size}]";
 		}
 
 		#region ICollection implement
