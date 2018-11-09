@@ -28,7 +28,7 @@ namespace Model
 					_passangersCount = value;
 			}
 		}
-		public int SeatsCount { get; }
+		public int SeatsCount { get; set; }
 		public override int TotalWeight
 		{
 			get

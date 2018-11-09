@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:vm="clr-namespace:KProject.Application.ViewModel"
+        xmlns:converters="clr-namespace:KProject.Application.Converter"
         xmlns:local="clr-namespace:KProject.Application.View"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="700" MinWidth="700" MinHeight="450">
@@ -13,6 +14,7 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="..\Style\DefaultStyle.xaml" />
             </ResourceDictionary.MergedDictionaries>
+            <converters:VehicleIconConverter x:Key="VehicleIconConverter"/>
         </ResourceDictionary>
     </Window.Resources>
 
@@ -28,16 +30,41 @@
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
 
-        <TextBlock Text="Garages" Style="{StaticResource HeaderStyle}"/>
-        <ListBox Grid.Row="1" Margin="5" ItemsSource="{Binding Garages}" SelectedValue="{Binding Path=SelectedGarage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+        <Menu Grid.ColumnSpan="3">
+            <MenuItem Header="File">
+                <MenuItem Header="Open ..."/>
+                <MenuItem Header="Save as ...">
+                    <MenuItem Header="Binary file"/>
+                    <MenuItem Header="XML file"/>
+                </MenuItem>
+            </MenuItem>
+            <MenuItem Header="Help">
+                <MenuItem Header="About"/>
+                
+            </MenuItem>
+        </Menu>
+        
+        <TextBlock Grid.Row="1" Text="Garages" Style="{StaticResource HeaderStyle}"/>
+        <ListBox Grid.Row="2" Margin="5" ItemsSource="{Binding Garages.View}" SelectedValue="{Binding Path=SelectedGarage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
-        <TextBlock Grid.Column="1" Text="Vehicles" Style="{StaticResource HeaderStyle}"/>
-        <ListBox Grid.Row="1" Grid.Column="1" Margin="5"/>
+        <TextBlock Grid.Row="1" Grid.Column="1" Text="Vehicles" Style="{StaticResource HeaderStyle}"/>
+        <ListBox Grid.Row="2" Grid.Column="1" Margin="5" ItemsSource="{Binding Vehicles.View}" SelectedValue="{Binding SelectedVehicle}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <Image Width="20" Height="20" Stretch="Fill" Margin="2, 2, 5, 2" Source="{Binding Path=., Converter={StaticResource VehicleIconConverter}}"/>
+                        <TextBlock Text="{Binding Name}" VerticalAlignment="Center" Margin="3, 0"/>
+                        
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
 
-        <StackPanel Grid.Column="2" Grid.RowSpan="2" VerticalAlignment="Center">
+        <StackPanel Grid.Row="1" Grid.Column="2" Grid.RowSpan="2" VerticalAlignment="Center">
             <Button Content="Add vehicle" Command="{Binding AddVehicleCommand}"/>
             <Button Content="Edit vehicle" Command="{Binding EditVehicleCommand}"/>
             <Button Content="Clear garage"/>

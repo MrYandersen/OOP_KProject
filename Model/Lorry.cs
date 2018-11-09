@@ -2,7 +2,7 @@
 
 namespace Model
 {
-	class Lorry : Vehicle
+	public class Lorry : Vehicle
 	{
 		private const double SpeedReduceFactor = 0.01;
 

@@ -59,6 +59,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Converter\VehicleIconConverter.cs" />
     <Compile Include="Utils\ObservableObject.cs" />
     <Compile Include="Utils\RelayCommand.cs" />
     <Compile Include="ViewModel\EditVehicleVM.cs" />
@@ -115,6 +116,12 @@
       <Project>{881F8A9E-F27C-4080-A68E-319FB2C1E2DF}</Project>
       <Name>Model</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Resources\Icons\bycicle.png" />
+    <Resource Include="Resources\Icons\car.png" />
+    <Resource Include="Resources\Icons\lorry.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

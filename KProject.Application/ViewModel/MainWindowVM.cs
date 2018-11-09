@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -14,16 +15,33 @@ namespace KProject.Application.ViewModel
 {
 	class MainWindowVM
 	{
-		public CollectionView Garages { get; set; }
-		public Garage SelectedGarage { get; set; }
-		public Vehicle SelectedVehicle { get; set; } = new Car("BestCar", 2354, 4);
+		private Garage _selectedGarage;
+
+		public CollectionViewSource Garages { get; set; } = new CollectionViewSource();
+		public CollectionViewSource Vehicles { get; set; } = new CollectionViewSource();
+		public Garage SelectedGarage
+		{
+			get => _selectedGarage;
+			set
+			{
+				_selectedGarage = value;
+				using (Vehicles.DeferRefresh())
+					Vehicles.Source = value;	
+			}
+		}
+		public Vehicle SelectedVehicle { get; set; }
 
 		public MainWindowVM()
 		{
-			Garages = new CollectionView(new Garage[] { new Garage("Garage #1", 5), new Garage("BigGarage", 20) });
-
-			Vehicle vehicle = new Car("BestCar", 2541, 4);
-			PropertyInfo[] info = vehicle.GetType().GetProperties();
+			// Это временные тестовые данные для отображения на UI. В последствии тут будет что-то иное.
+			Garage g = new Garage("Name", 10);
+			g.Add(new Car("BestCar", 2354, 4));
+			g.Add(new Car("BestCar", 2354, 4));
+			g.Add(new Car("BestCar", 2354, 4));
+			g.Add(new Car("BestCar", 2354, 4));
+			g.Add(new Car("BestCar", 2354, 4));
+			Garages.Source = new Garage[] { new Garage("Garage #1", 5), new Garage("BigGarage", 20), g };
+			Vehicles.Source = new Vehicle[] { new Car("BestCar", 2354, 4), new Lorry("Big lorry", 5874, 2800, 2006) };
 		}
 
 		private ICommand _addVehicleCommand;
