@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Reflection;
-using System.Windows;
 
-using Model;
+using Model.Entities;
 
 namespace KProject.Application.ViewModel
 {

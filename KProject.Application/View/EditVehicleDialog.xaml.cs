@@ -2,7 +2,7 @@
 
 using KProject.Application.ViewModel;
 
-using Model;
+using Model.Entities;
 
 namespace KProject.Application.View
 {

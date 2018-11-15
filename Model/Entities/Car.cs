@@ -1,14 +1,16 @@
 ﻿using System;
+using System.Xml;
+using System.Xml.Schema;
 
-namespace Model
+namespace Model.Entities
 {
+	[Serializable]
 	public class Car : Vehicle
 	{
 		private const int AverageHumanWeight = 70;
 
 		#region Fields
 		private int _passangersCount;
-		private int _emptyMaxSpeed;
 		#endregion
 
 		#region Properties
@@ -28,6 +30,7 @@ namespace Model
 					_passangersCount = value;
 			}
 		}
+		private int EmptyMaxSpeed { get; set; }
 		public int SeatsCount { get; set; }
 		public override int TotalWeight
 		{
@@ -40,7 +43,7 @@ namespace Model
 		{
 			get
 			{
-				return _emptyMaxSpeed;
+				return EmptyMaxSpeed;
 			}
 		}
 		#endregion
@@ -51,9 +54,10 @@ namespace Model
 
 		}
 
-		public Car(string name, int weight, int seatsCount, int yearOfIssue = 2018) : base(name, weight, yearOfIssue)
+		public Car(string name, int weight, int seatsCount, int emptyMaxSpeed, int yearOfIssue = 2018) : base(name, weight, yearOfIssue)
 		{
 			SeatsCount = seatsCount;
+			EmptyMaxSpeed = emptyMaxSpeed;
 		}
 		#endregion
 
@@ -66,5 +70,27 @@ namespace Model
 		{
 			return $"[Car]" + base.ToString();
 		}
+
+		#region IXmlSerializable overrides
+		public override void ReadXml(XmlReader reader)
+		{
+			base.ReadXml(reader);
+			if (reader.MoveToContent() == XmlNodeType.Element && reader.LocalName == "Car")
+			{
+				PassangersCount = int.Parse(reader["PassangersCount"]);
+				SeatsCount = int.Parse(reader["SeatsCount"]);
+				EmptyMaxSpeed = int.Parse(reader["EmptyMaxSpeed"]);
+				reader.Read();
+			}
+		}
+
+		public override void WriteXml(XmlWriter writer)
+		{
+			base.WriteXml(writer);
+			writer.WriteAttributeString("PassangersCount", PassangersCount.ToString());
+			writer.WriteAttributeString("SeatsCount", SeatsCount.ToString());
+			writer.WriteAttributeString("EmptyMaxSpeed", EmptyMaxSpeed.ToString());
+		}
+		#endregion
 	}
 }

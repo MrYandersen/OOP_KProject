@@ -1,18 +1,20 @@
 ﻿using System;
+using System.Xml;
 
-namespace Model
+namespace Model.Entities
 {
+	[Serializable]
 	public class Lorry : Vehicle
 	{
 		private const double SpeedReduceFactor = 0.01;
 
 		#region Fields
 		private int _currentLoad;
-		private int _emptyMaxSpeed;
 		#endregion
 
 		#region Properties
-		public int LoadCapacity { get; }
+		public int EmptyMaxSpeed { get; set; }
+		public int LoadCapacity { get; set; }
 		public int CurrentLoad
 		{
 			get
@@ -40,7 +42,7 @@ namespace Model
 		{
 			get
 			{
-				return (int)(_emptyMaxSpeed - SpeedReduceFactor * (TotalWeight - Weight));
+				return (int)(EmptyMaxSpeed - SpeedReduceFactor * (TotalWeight - Weight));
 			}
 		}
 		#endregion
@@ -67,6 +69,26 @@ namespace Model
 			return $"[Lorry]" + base.ToString();
 		}
 
+		#region IXmlSerializable overrides
+		public override void ReadXml(XmlReader reader)
+		{
+			base.ReadXml(reader);
+			if (reader.MoveToContent() == XmlNodeType.Element && reader.LocalName == "Lorry")
+			{
+				LoadCapacity = int.Parse(reader["LoadCapacity"]);
+				CurrentLoad = int.Parse(reader["CurrentLoad"]);
+				EmptyMaxSpeed = int.Parse(reader["EmptyMaxSpeed"]);
+				reader.Read();
+			}
+		}
 
+		public override void WriteXml(XmlWriter writer)
+		{
+			base.WriteXml(writer);
+			writer.WriteAttributeString("LoadCapacity", LoadCapacity.ToString());
+			writer.WriteAttributeString("CurrentLoad", CurrentLoad.ToString());
+			writer.WriteAttributeString("EmptyMaxSpeed", EmptyMaxSpeed.ToString());
+		}
+		#endregion
 	}
 }
