@@ -14,7 +14,10 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="..\Style\DefaultStyle.xaml" />
             </ResourceDictionary.MergedDictionaries>
+            
             <converters:VehicleIconConverter x:Key="VehicleIconConverter"/>
+            <converters:UIVehicleTitleConverter x:Key="VehicleNameConverter"/>
+            <converters:VehicleManagementEnabledConverter x:Key="ButtonEnabledConverter"/>
         </ResourceDictionary>
     </Window.Resources>
 
@@ -29,6 +32,7 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
             <RowDefinition/>
@@ -49,26 +53,67 @@
         </Menu>
         
         <TextBlock Grid.Row="1" Text="Garages" Style="{StaticResource HeaderStyle}"/>
-        <ListBox Grid.Row="2" Margin="5" ItemsSource="{Binding Garages.View}" SelectedValue="{Binding Path=SelectedGarage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+        <Menu Grid.Row="2" Margin="5, 0" Background="Wheat">
+            <MenuItem Header="Add"/>
+            <MenuItem Header="Edit" IsEnabled="{Binding Path=SelectedGarage, Converter={StaticResource ButtonEnabledConverter}}"/>
+            <MenuItem Header="Remove" IsEnabled="{Binding Path=SelectedGarage, Converter={StaticResource ButtonEnabledConverter}}"/>
+            <MenuItem Header="Clear"/>
+        </Menu>
+        <ListBox Grid.Row="3" Margin="5, 0, 5, 5" ItemsSource="{Binding Garages.View}" SelectedValue="{Binding Path=SelectedGarage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
         <TextBlock Grid.Row="1" Grid.Column="1" Text="Vehicles" Style="{StaticResource HeaderStyle}"/>
-        <ListBox Grid.Row="2" Grid.Column="1" Margin="5" ItemsSource="{Binding Vehicles.View}" SelectedValue="{Binding SelectedVehicle}">
+        <Menu Grid.Row="2" Grid.Column="1" Margin="5, 0" Background="Wheat" IsEnabled="{Binding Path=SelectedGarage, Converter={StaticResource ButtonEnabledConverter}}">
+            <MenuItem Header="Add">
+                <MenuItem Header="Car" BorderBrush="Wheat" Background="Wheat" Command="{Binding AddVehicleCommand}" CommandParameter="Car"/>
+                <MenuItem Header="Lorry" BorderBrush="Wheat" Background="Wheat" Command="{Binding AddVehicleCommand}" CommandParameter="Lorry"/>
+                <MenuItem Header="Bicycle" BorderBrush="Wheat" Background="Wheat" Command="{Binding AddVehicleCommand}" CommandParameter="Bicycle"/>
+            </MenuItem>
+            <MenuItem Header="Remove" Command="{Binding RemoveVehicleCommand}"/>
+            <MenuItem Header="Clear" Command="{Binding ClearVehiclesCommand}"/>
+        </Menu>
+        <ListBox Grid.Row="3" Grid.Column="1" Margin="5, 0, 5, 5" ItemsSource="{Binding Vehicles.View}" SelectedValue="{Binding SelectedVehicle}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">
                         <Image Width="20" Height="20" Stretch="Fill" Margin="2, 2, 5, 2" Source="{Binding Path=., Converter={StaticResource VehicleIconConverter}}"/>
-                        <TextBlock Text="{Binding Name}" VerticalAlignment="Center" Margin="3, 0"/>
-                        
+                        <TextBlock VerticalAlignment="Center" Margin="3, 0">
+                            <TextBlock.Text>
+                                <MultiBinding Converter="{StaticResource VehicleNameConverter}">
+                                    <Binding Path="Name"/>
+                                    <Binding Path="YearOfIssue"/>
+                                    <Binding Path="Cost"/>
+                                </MultiBinding>
+                            </TextBlock.Text>
+                        </TextBlock>
                     </StackPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
 
-        <StackPanel Grid.Row="1" Grid.Column="2" Grid.RowSpan="2" VerticalAlignment="Center">
-            <Button Content="Add vehicle" Command="{Binding AddVehicleCommand}"/>
-            <Button Content="Edit vehicle" Command="{Binding EditVehicleCommand}"/>
-            <Button Content="Clear garage"/>
-            <Button Content="Remove vehicle"/>
+        <StackPanel Grid.Row="3" Grid.Column="2">
+            <TextBlock Text="{Binding OperationKind}"/>
+            <ItemsControl ItemsSource="{Binding Properties}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Margin="3" FontSize="14" Text="{Binding PropertyName}"/>
+                            <TextBox Margin="3"  FontSize="14" Grid.Column="1" IsEnabled="{Binding CanWrite}">
+                                <TextBox.Text>
+                                    <Binding Path="Value" UpdateSourceTrigger="PropertyChanged" Mode="TwoWay">
+                                        <Binding.ValidationRules>
+                                            <ExceptionValidationRule />
+                                        </Binding.ValidationRules>
+                                    </Binding>
+                                </TextBox.Text>
+                            </TextBox>
+                        </Grid>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
         </StackPanel>
     </Grid>
 </Window>

@@ -1,32 +1,56 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
+using System.Windows.Input;
 using System.Xml;
 using System.Xml.Schema;
 using System.Xml.Serialization;
 
+using Model.Utils;
+
 namespace Model.Entities
 {
 	[Serializable]
-	public class Garage : ICollection<Vehicle>, IXmlSerializable
+	public class Garage : ObservableObject, ICollection<Vehicle>, IXmlSerializable, INotifyCollectionChanged
 	{
-		private List<Vehicle> _vehicles;
+		private ObservableCollection<Vehicle> _vehicles;
+		private string _name;
 
-		public string Name { get; set; }
+		public string Name
+		{
+			get => _name;
+			set
+			{
+				_name = value;
+				OnPropertyChanged(nameof(Name));
+			}
+		}
 
 		public int Size { get; set; }
 
+		#region C-tors
 		private Garage()
 		{
-			_vehicles = new List<Vehicle>();
+			_vehicles = new ObservableCollection<Vehicle>();
+			_vehicles.CollectionChanged += CollectionChangedHandler;
 		}
 
-		public Garage(string name, int baseSize)
+		private void CollectionChangedHandler(object sender, NotifyCollectionChangedEventArgs e)
 		{
-			_vehicles = new List<Vehicle>(baseSize);
+			OnPropertyChanged(nameof(Size));
+			CommandManager.InvalidateRequerySuggested();
+		}
+
+		public Garage(string name, int baseSize) : this()
+		{
 			Name = name;
 			Size = baseSize;
 		}
+		#endregion
+
+
 
 		public override string ToString()
 		{
@@ -83,7 +107,9 @@ namespace Model.Entities
 		{
 			return _vehicles.GetEnumerator();
 		}
+		#endregion
 
+		#region IXmlSerializable implementation
 		public XmlSchema GetSchema()
 		{
 			return null;
@@ -123,5 +149,17 @@ namespace Model.Entities
 		}
 
 		#endregion
+
+		public event NotifyCollectionChangedEventHandler CollectionChanged
+		{
+			add
+			{
+				_vehicles.CollectionChanged += value;
+			}
+			remove
+			{
+				_vehicles.CollectionChanged -= value;
+			}
+		}
 	}
 }

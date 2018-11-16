@@ -10,13 +10,56 @@ namespace Model.Entities
 	[Serializable]
 	public abstract class Vehicle : ObservableObject, IXmlSerializable
 	{
-		public string Name { get; set; }
-		public decimal Cost { get; set; }
-		public abstract int MaxSpeed { get; }
-		public int YearOfIssue { get; set; }
-		public int Weight { get; set; }
-		public abstract int TotalWeight { get; } 
+		#region Fields
+		private decimal _cost;
+		private string _name;
+		private int _yearOfIssue;
+		private int _weight;
+		#endregion
 
+		#region Properties
+		public string Name
+		{
+			get => _name;
+			set
+			{
+				_name = value;
+				OnPropertyChanged(nameof(Name));
+			}
+		}
+		public decimal Cost
+		{
+			get => _cost;
+			set
+			{
+				_cost = value;
+				OnPropertyChanged(nameof(Cost));
+			}
+		}
+		public abstract int MaxSpeed { get; }
+		public int YearOfIssue
+		{
+			get => _yearOfIssue;
+			set
+			{
+				_yearOfIssue = value;
+				OnPropertyChanged(nameof(YearOfIssue));
+			}
+		}
+		public int Weight
+		{
+			get => _weight;
+			set
+			{
+				_weight = value;
+				OnPropertyChanged(nameof(Weight));
+				OnPropertyChanged(nameof(TotalWeight));
+			}
+		}
+		public abstract int TotalWeight { get; }
+		#endregion
+
+		#region C-tors
 		protected Vehicle()
 		{
 
@@ -28,6 +71,7 @@ namespace Model.Entities
 			Weight = weight;
 			YearOfIssue = yearOfIssue;
 		}
+		#endregion
 
 		public abstract string GetWeigthInfo();
 
@@ -36,11 +80,11 @@ namespace Model.Entities
 			return $"{Name} ({YearOfIssue}). Cost - {Cost}";
 		}
 
+		#region IXmlSerializable implementation
 		public XmlSchema GetSchema()
 		{
 			return null;
 		}
-
 		public virtual void ReadXml(XmlReader reader)
 		{
 			if (reader.MoveToContent() == XmlNodeType.Element && reader.LocalName == "Vehicle")
@@ -52,7 +96,6 @@ namespace Model.Entities
 				reader.Read();
 			}
 		}
-
 		public virtual void WriteXml(XmlWriter writer)
 		{
 			writer.WriteAttributeString("Type", GetType().FullName);
@@ -61,5 +104,6 @@ namespace Model.Entities
 			writer.WriteAttributeString("YearOfIssue", YearOfIssue.ToString());
 			writer.WriteAttributeString("Weight", Weight.ToString());
 		}
+		#endregion
 	}
 }

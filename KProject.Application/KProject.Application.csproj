@@ -59,13 +59,11 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Converter\UIVehicleTitleConverter.cs" />
     <Compile Include="Converter\VehicleIconConverter.cs" />
+    <Compile Include="Converter\VehicleManagementEnabledConverter.cs" />
     <Compile Include="Utils\RelayCommand.cs" />
-    <Compile Include="ViewModel\EditVehicleVM.cs" />
     <Compile Include="ViewModel\MainWindowVM.cs" />
-    <Compile Include="View\EditVehicleDialog.xaml.cs">
-      <DependentUpon>EditVehicleDialog.xaml</DependentUpon>
-    </Compile>
     <Compile Include="View\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
@@ -92,16 +90,13 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <Compile Include="ViewModel\MainWindowVM.Commands.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="Style\DefaultStyle.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\EditVehicleDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

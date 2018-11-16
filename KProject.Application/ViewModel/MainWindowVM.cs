@@ -1,22 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
+using System.Reflection;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Xml.Serialization;
+
 using KProject.Application.Utils;
 using KProject.Application.View;
+
 using Microsoft.Win32;
+
 using Model.Entities;
 
 namespace KProject.Application.ViewModel
 {
-	class MainWindowVM
+	partial class MainWindowVM
 	{
 		private Garage _selectedGarage;
+		private Vehicle _selectedVehicle;
 		private XmlSerializer _xmlSerializer;
 		private BinaryFormatter _binaryFormatter;
+		private static object _editingObject;
 
 		private XmlSerializer XmlSerializer
 		{
@@ -29,6 +36,7 @@ namespace KProject.Application.ViewModel
 
 		public CollectionViewSource Garages { get; set; } = new CollectionViewSource();
 		public CollectionViewSource Vehicles { get; set; } = new CollectionViewSource();
+		public ObservableCollection<Property> Properties { get; set; } = new ObservableCollection<Property>();
 		public Garage SelectedGarage
 		{
 			get => _selectedGarage;
@@ -39,7 +47,30 @@ namespace KProject.Application.ViewModel
 					Vehicles.Source = value;
 			}
 		}
-		public Vehicle SelectedVehicle { get; set; }
+		public Vehicle SelectedVehicle
+		{
+			get => _selectedVehicle;
+			set
+			{
+				_editingObject = value;
+				_selectedVehicle = value;
+				GetProperties();
+			}
+		}
+
+		private void GetProperties()
+		{
+			Properties.Clear();
+			if (_editingObject != null)
+			{
+				PropertyInfo[] properties = _editingObject.GetType().GetProperties();
+				foreach (PropertyInfo item in properties)
+				{
+					Properties.Add(new Property(item));
+				}
+			}
+
+		}
 
 		public MainWindowVM()
 		{
@@ -54,101 +85,25 @@ namespace KProject.Application.ViewModel
 			//Vehicles.Source = new Vehicle[] { new Car("BestCar", 2354, 154, 4), new Lorry("Big lorry", 5874, 2800, 2006) };
 		}
 
-		private ICommand _addVehicleCommand;
-		public ICommand AddVehicleCommand
+		public class Property
 		{
-			get
+			private PropertyInfo _propertyInfo;
+
+			public string PropertyName
 			{
-				return _addVehicleCommand ?? (_addVehicleCommand = new RelayCommand((o) =>
-				{
-					EditVehicleDialog dialog = new EditVehicleDialog(new Car());
-					dialog.ShowDialog();
-				}));
+				get => _propertyInfo.Name;
 			}
-		}
-
-		private ICommand _editVehicleCommand;
-		public ICommand EditVehicleCommand
-		{
-			get
+			public object Value
 			{
-				return _editVehicleCommand ?? (_editVehicleCommand = new RelayCommand((o) =>
-				{
-					EditVehicleDialog dialog = new EditVehicleDialog(SelectedVehicle);
-					dialog.ShowDialog();
-				}));
+				get => Convert.ChangeType(_propertyInfo.GetValue(_editingObject), _propertyInfo.PropertyType);
+				set => _propertyInfo.SetValue(_editingObject, Convert.ChangeType(value, _propertyInfo.PropertyType));
 			}
-		}
+			public bool CanWrite { get => _propertyInfo.CanWrite; }
 
-		private ICommand _openFileCommand;
-		public ICommand OpenFileCommand
-		{
-			get
+
+			public Property(PropertyInfo info)
 			{
-				return _openFileCommand ?? (_openFileCommand = new RelayCommand((o) =>
-				{
-					OpenFileDialog ofd = new OpenFileDialog();
-					ofd.Filter = "Any available files|*bin;*.xml|Binary files|*.bin|XML files|*.xml";
-					if (ofd.ShowDialog().Value == true)
-					{
-						if (ofd.FileName.EndsWith("xml"))
-						{
-							using (FileStream fs = new FileStream(ofd.FileName, FileMode.Open))
-							{
-								Garages.Source = (List<Garage>)XmlSerializer.Deserialize(fs);
-							}
-						}
-						else if (ofd.FileName.EndsWith("bin"))
-						{
-							using (FileStream fs = new FileStream(ofd.FileName, FileMode.Open))
-							{
-								Garages.Source = (List<Garage>)BinaryFormatter.Deserialize(fs);
-							}
-						}
-					}
-				}));
-			}
-		}
-
-		private ICommand _saveBinaryCommand;
-		public ICommand SaveBinaryCommand
-		{
-			get
-			{
-				return _saveBinaryCommand ?? (_saveBinaryCommand = new RelayCommand((o) =>
-				{
-					SaveFileDialog sfd = new SaveFileDialog();
-					sfd.Filter = "Binary files|*.bin";
-					if (sfd.ShowDialog().Value == true)
-					{
-						using (FileStream fs = new FileStream(sfd.FileName, FileMode.Create))
-						{
-							BinaryFormatter.Serialize(fs, Garages.Source);
-						}
-					}
-
-				}));
-			}
-		}
-
-		private ICommand _saveXMLCommand;
-		public ICommand SaveXMLCommand
-		{
-			get
-			{
-				return _saveXMLCommand ?? (_saveXMLCommand = new RelayCommand((o) =>
-				{
-					SaveFileDialog sfd = new SaveFileDialog();
-					sfd.Filter = "XML files|*.xml";
-					if (sfd.ShowDialog().Value == true)
-					{
-						using (FileStream fs = new FileStream(sfd.FileName, FileMode.Create))
-						{
-							XmlSerializer.Serialize(fs, Garages.Source);
-						}
-					}
-
-				}));
+				_propertyInfo = info;
 			}
 		}
 	}
