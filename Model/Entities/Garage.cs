@@ -17,6 +17,7 @@ namespace Model.Entities
 	{
 		private ObservableCollection<Vehicle> _vehicles;
 		private string _name;
+		private int _size;
 
 		public string Name
 		{
@@ -28,7 +29,15 @@ namespace Model.Entities
 			}
 		}
 
-		public int Size { get; set; }
+		public int Size
+		{
+			get => _size;
+			set
+			{
+				_size = value;
+				OnPropertyChanged(nameof(Size));
+			}
+		}
 
 		#region C-tors
 		private Garage()
@@ -50,8 +59,6 @@ namespace Model.Entities
 		}
 		#endregion
 
-
-
 		public override string ToString()
 		{
 			return $"{Name} [{_vehicles.Count} / {Size}]";
@@ -70,12 +77,20 @@ namespace Model.Entities
 
 		public void Add(Vehicle item)
 		{
-			_vehicles.Add(item);
+			if (Count < Size)
+			{
+				_vehicles.Add(item);
+				OnPropertyChanged(nameof(Count));
+			}
+			else
+				throw new ArgumentException("Garage is full!");
+
 		}
 
 		public void Clear()
 		{
 			_vehicles.Clear();
+			OnPropertyChanged(nameof(Count));
 		}
 
 		public bool Contains(Vehicle item)
@@ -95,11 +110,13 @@ namespace Model.Entities
 
 		public bool Remove(Vehicle item)
 		{
+			OnPropertyChanged(nameof(Count));
 			return _vehicles.Remove(item);
 		}
 
 		public void RemoveAt(int index)
 		{
+			OnPropertyChanged(nameof(Count));
 			_vehicles.RemoveAt(index);
 		}
 

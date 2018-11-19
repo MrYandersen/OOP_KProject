@@ -14,9 +14,8 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="..\Style\DefaultStyle.xaml" />
             </ResourceDictionary.MergedDictionaries>
-            
+
             <converters:VehicleIconConverter x:Key="VehicleIconConverter"/>
-            <converters:UIVehicleTitleConverter x:Key="VehicleNameConverter"/>
             <converters:VehicleManagementEnabledConverter x:Key="ButtonEnabledConverter"/>
         </ResourceDictionary>
     </Window.Resources>
@@ -48,18 +47,32 @@
             </MenuItem>
             <MenuItem Header="Help">
                 <MenuItem Header="About"/>
-                
+
             </MenuItem>
         </Menu>
-        
+
         <TextBlock Grid.Row="1" Text="Garages" Style="{StaticResource HeaderStyle}"/>
         <Menu Grid.Row="2" Margin="5, 0" Background="Wheat">
-            <MenuItem Header="Add"/>
-            <MenuItem Header="Edit" IsEnabled="{Binding Path=SelectedGarage, Converter={StaticResource ButtonEnabledConverter}}"/>
-            <MenuItem Header="Remove" IsEnabled="{Binding Path=SelectedGarage, Converter={StaticResource ButtonEnabledConverter}}"/>
-            <MenuItem Header="Clear"/>
+            <MenuItem Header="Add" Command="{Binding AddGarageCommand}"/>
+            <MenuItem Header="Edit" Command="{Binding EditGarageCommand}" IsEnabled="{Binding Path=SelectedGarage, Converter={StaticResource ButtonEnabledConverter}}"/>
+            <MenuItem Header="Remove" Command="{Binding RemoveGarageCommand}" IsEnabled="{Binding Path=SelectedGarage, Converter={StaticResource ButtonEnabledConverter}}"/>
+            <MenuItem Header="Clear" Command="{Binding ClearGaragesCommand}"/>
         </Menu>
-        <ListBox Grid.Row="3" Margin="5, 0, 5, 5" ItemsSource="{Binding Garages.View}" SelectedValue="{Binding Path=SelectedGarage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+        <ListBox Grid.Row="3" Margin="5, 0, 5, 5" ItemsSource="{Binding Garages.View}" SelectedValue="{Binding Path=SelectedGarage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock VerticalAlignment="Center" Margin="3, 0">
+                        <TextBlock.Text>
+                            <MultiBinding StringFormat="{}{0} [{1} / {2}]">
+                                <Binding Path="Name"/>
+                                <Binding Path="Count"/>
+                                <Binding Path="Size"/>
+                            </MultiBinding>
+                        </TextBlock.Text>
+                    </TextBlock>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
 
         <TextBlock Grid.Row="1" Grid.Column="1" Text="Vehicles" Style="{StaticResource HeaderStyle}"/>
         <Menu Grid.Row="2" Grid.Column="1" Margin="5, 0" Background="Wheat" IsEnabled="{Binding Path=SelectedGarage, Converter={StaticResource ButtonEnabledConverter}}">
@@ -78,7 +91,7 @@
                         <Image Width="20" Height="20" Stretch="Fill" Margin="2, 2, 5, 2" Source="{Binding Path=., Converter={StaticResource VehicleIconConverter}}"/>
                         <TextBlock VerticalAlignment="Center" Margin="3, 0">
                             <TextBlock.Text>
-                                <MultiBinding Converter="{StaticResource VehicleNameConverter}">
+                                <MultiBinding StringFormat="{}{0} ({1}). Cost - {2}$">
                                     <Binding Path="Name"/>
                                     <Binding Path="YearOfIssue"/>
                                     <Binding Path="Cost"/>

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
+using System.Windows;
 using System.Windows.Input;
 using KProject.Application.Utils;
 using Microsoft.Win32;
@@ -9,7 +11,7 @@ using Model.Entities;
 namespace KProject.Application.ViewModel
 {
 	partial class MainWindowVM
-    {
+	{
 		private ICommand _addVehicleCommand;
 		public ICommand AddVehicleCommand
 		{
@@ -17,20 +19,30 @@ namespace KProject.Application.ViewModel
 			{
 				return _addVehicleCommand ?? (_addVehicleCommand = new RelayCommand((o) =>
 				{
-					switch (o as string)
+					try
 					{
-						case "Car":
-							SelectedGarage.Add(new Car());
-							break;
-						case "Lorry":
-							SelectedGarage.Add(new Car());
-							break;
-						case "Bicycle":
-							SelectedGarage.Add(new Car());
-							break;
-						default:
-							break;
+						Vehicle temp = null;
+						switch (o as string)
+						{
+							case "Car":
+								SelectedGarage.Add(temp = new Car());
+								break;
+							case "Lorry":
+								SelectedGarage.Add(temp = new Lorry());
+								break;
+							case "Bicycle":
+								SelectedGarage.Add(temp = new Bicycle());
+								break;
+							default:
+								break;
+						}
+						SelectedVehicle = temp;
 					}
+					catch (Exception ex)
+					{
+						MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+					}
+
 				}));
 			}
 		}
@@ -66,24 +78,31 @@ namespace KProject.Application.ViewModel
 			{
 				return _openFileCommand ?? (_openFileCommand = new RelayCommand((o) =>
 				{
-					OpenFileDialog ofd = new OpenFileDialog();
-					ofd.Filter = "Any available files|*bin;*.xml|Binary files|*.bin|XML files|*.xml";
-					if (ofd.ShowDialog().Value == true)
+					try
 					{
-						if (ofd.FileName.EndsWith("xml"))
+						OpenFileDialog ofd = new OpenFileDialog();
+						ofd.Filter = "Any available files|*bin;*.xml|Binary files|*.bin|XML files|*.xml";
+						if (ofd.ShowDialog().Value == true)
 						{
-							using (FileStream fs = new FileStream(ofd.FileName, FileMode.Open))
+							if (ofd.FileName.EndsWith("xml"))
 							{
-								Garages.Source = (List<Garage>)XmlSerializer.Deserialize(fs);
+								using (FileStream fs = new FileStream(ofd.FileName, FileMode.Open))
+								{
+									Garages.Source = (ObservableCollection<Garage>)XmlSerializer.Deserialize(fs);
+								}
+							}
+							else if (ofd.FileName.EndsWith("bin"))
+							{
+								using (FileStream fs = new FileStream(ofd.FileName, FileMode.Open))
+								{
+									Garages.Source = (ObservableCollection<Garage>)BinaryFormatter.Deserialize(fs);
+								}
 							}
 						}
-						else if (ofd.FileName.EndsWith("bin"))
-						{
-							using (FileStream fs = new FileStream(ofd.FileName, FileMode.Open))
-							{
-								Garages.Source = (List<Garage>)BinaryFormatter.Deserialize(fs);
-							}
-						}
+					}
+					catch (Exception)
+					{
+						MessageBox.Show("An error occurred while reading the file. The file may have been damaged.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
 					}
 				}));
 			}
@@ -127,6 +146,57 @@ namespace KProject.Application.ViewModel
 						}
 					}
 
+				}));
+			}
+		}
+
+		private ICommand _addGarageCommand;
+		public ICommand AddGarageCommand
+		{
+			get
+			{
+				return _addGarageCommand ?? (_addGarageCommand = new RelayCommand((o) =>
+				{
+					Garage g = new Garage("Unnamed", 5);
+					(Garages.Source as ObservableCollection<Garage>).Add(g);
+					SelectedGarage = g;
+					UpdateEditingObject(g);
+				}));
+			}
+		}
+
+		private ICommand _editGarageCommand;
+		public ICommand EditGarageCommand
+		{
+			get
+			{
+				return _editGarageCommand ?? (_editGarageCommand = new RelayCommand((o) =>
+				{
+					UpdateEditingObject(SelectedGarage);
+				}));
+			}
+		}
+
+		private ICommand _removeGarageCommand;
+		public ICommand RemoveGarageCommand
+		{
+			get
+			{
+				return _removeGarageCommand ?? (_removeGarageCommand = new RelayCommand((o) =>
+				{
+					(Garages.Source as ObservableCollection<Garage>).Remove(SelectedGarage);
+				}));
+			}
+		}
+
+		private ICommand _clearGaragesCommand;
+		public ICommand ClearGaragesCommand
+		{
+			get
+			{
+				return _clearGaragesCommand ?? (_clearGaragesCommand = new RelayCommand((o) =>
+				{
+					(Garages.Source as ObservableCollection<Garage>).Clear();
 				}));
 			}
 		}

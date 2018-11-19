@@ -59,7 +59,6 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Converter\UIVehicleTitleConverter.cs" />
     <Compile Include="Converter\VehicleIconConverter.cs" />
     <Compile Include="Converter\VehicleManagementEnabledConverter.cs" />
     <Compile Include="Utils\RelayCommand.cs" />

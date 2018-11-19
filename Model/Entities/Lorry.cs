@@ -10,10 +10,20 @@ namespace Model.Entities
 
 		#region Fields
 		private int _currentLoad;
+		private int _emptyMaxSpeed;
 		#endregion
 
 		#region Properties
-		public int EmptyMaxSpeed { get; set; }
+		public int EmptyMaxSpeed
+		{
+			get => _emptyMaxSpeed;
+			set
+			{
+				_emptyMaxSpeed = value;
+				OnPropertyChanged(nameof(EmptyMaxSpeed));
+				OnPropertyChanged(nameof(MaxSpeed));
+			}
+		}
 		public int LoadCapacity { get; set; }
 		public int CurrentLoad
 		{
@@ -29,6 +39,9 @@ namespace Model.Entities
 					_currentLoad = LoadCapacity;
 				else
 					_currentLoad = value;
+
+				OnPropertyChanged(nameof(CurrentLoad));
+				OnPropertyChanged(nameof(TotalWeight));
 			}
 		}
 		public override int TotalWeight

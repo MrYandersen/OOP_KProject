@@ -28,6 +28,9 @@ namespace Model.Entities
 					_passangersCount = SeatsCount;
 				else
 					_passangersCount = value;
+
+				OnPropertyChanged(nameof(PassangersCount));
+				OnPropertyChanged(nameof(TotalWeight));
 			}
 		}
 		private int EmptyMaxSpeed { get; set; }

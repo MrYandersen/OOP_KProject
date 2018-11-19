@@ -1,23 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.IO;
+using System.ComponentModel;
 using System.Reflection;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Windows.Data;
-using System.Windows.Input;
 using System.Xml.Serialization;
 
-using KProject.Application.Utils;
-using KProject.Application.View;
-
-using Microsoft.Win32;
-
 using Model.Entities;
+using Model.Utils;
 
 namespace KProject.Application.ViewModel
 {
-	partial class MainWindowVM
+	partial class MainWindowVM : ObservableObject
 	{
 		private Garage _selectedGarage;
 		private Vehicle _selectedVehicle;
@@ -43,6 +38,7 @@ namespace KProject.Application.ViewModel
 			set
 			{
 				_selectedGarage = value;
+				OnPropertyChanged(nameof(SelectedGarage));
 				using (Vehicles.DeferRefresh())
 					Vehicles.Source = value;
 			}
@@ -52,10 +48,16 @@ namespace KProject.Application.ViewModel
 			get => _selectedVehicle;
 			set
 			{
-				_editingObject = value;
+				UpdateEditingObject(value);
 				_selectedVehicle = value;
-				GetProperties();
+				OnPropertyChanged(nameof(SelectedVehicle));
 			}
+		}
+
+		public void UpdateEditingObject(object o)
+		{
+			_editingObject = o;
+			GetProperties();
 		}
 
 		private void GetProperties()
@@ -64,12 +66,13 @@ namespace KProject.Application.ViewModel
 			if (_editingObject != null)
 			{
 				PropertyInfo[] properties = _editingObject.GetType().GetProperties();
+				Property.Instance = _editingObject as ObservableObject;
 				foreach (PropertyInfo item in properties)
 				{
-					Properties.Add(new Property(item));
+					if(item.GetIndexParameters().Length == 0)
+						Properties.Add(new Property(item));
 				}
 			}
-
 		}
 
 		public MainWindowVM()
@@ -81,12 +84,13 @@ namespace KProject.Application.ViewModel
 			//g.Add(new Car("BestCar", 2354, 185, 4));
 			//g.Add(new Car("BestCar", 2354, 154, 4));
 			//g.Add(new Bicycle("BestCar", 7, 18));
-			//Garages.Source = new List<Garage> { new Garage("Garage #1", 5), new Garage("BigGarage", 20), g };
+			Garages.Source = new ObservableCollection<Garage>();
 			//Vehicles.Source = new Vehicle[] { new Car("BestCar", 2354, 154, 4), new Lorry("Big lorry", 5874, 2800, 2006) };
 		}
 
-		public class Property
+		public class Property : ObservableObject
 		{
+			public static ObservableObject Instance;
 			private PropertyInfo _propertyInfo;
 
 			public string PropertyName
@@ -104,6 +108,15 @@ namespace KProject.Application.ViewModel
 			public Property(PropertyInfo info)
 			{
 				_propertyInfo = info;
+				Instance.PropertyChanged += InstancePropertyChangedHandler;
+			}
+
+			private void InstancePropertyChangedHandler(object sender, PropertyChangedEventArgs e)
+			{
+				if(string.Compare(e.PropertyName, PropertyName) == 0)
+				{
+					OnPropertyChanged(nameof(Value));
+				}
 			}
 		}
 	}
