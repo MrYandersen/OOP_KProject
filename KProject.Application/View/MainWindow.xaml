@@ -41,7 +41,7 @@
             <MenuItem Header="File">
                 <MenuItem Header="Open ..." Command="{Binding OpenFileCommand}"/>
                 <MenuItem Header="Save as ...">
-                    <MenuItem Header="Binary file" Command="{Binding SaveBinaryCommand}"/>
+                    <MenuItem Header="Binary file" Command="{Binding SaveBinaryCommand}" />
                     <MenuItem Header="XML file" Command="{Binding SaveXMLCommand}"/>
                 </MenuItem>
             </MenuItem>
