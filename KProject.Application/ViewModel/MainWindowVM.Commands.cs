@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 using KProject.Application.Utils;
@@ -121,7 +122,7 @@ namespace KProject.Application.ViewModel
 					{
 						using (FileStream fs = new FileStream(sfd.FileName, FileMode.Create))
 						{
-							BinaryFormatter.Serialize(fs, Garages.Source);
+                            BinaryFormatter.Serialize(fs, Garages.Source);
 						}
 					}
 

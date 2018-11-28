@@ -3,10 +3,11 @@ using System.ComponentModel;
 
 namespace Model.Utils
 {
-	[Serializable]
+    [Serializable]
 	public abstract class ObservableObject : INotifyPropertyChanged
 	{
-		public event PropertyChangedEventHandler PropertyChanged;
+        [field:NonSerialized]
+        public event PropertyChangedEventHandler PropertyChanged;
 
 		public void OnPropertyChanged(string prop = "")
 		{
@@ -14,3 +15,4 @@ namespace Model.Utils
 		}
 	}
 }
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          

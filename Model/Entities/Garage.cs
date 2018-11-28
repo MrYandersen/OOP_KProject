@@ -49,7 +49,6 @@ namespace Model.Entities
 		private void CollectionChangedHandler(object sender, NotifyCollectionChangedEventArgs e)
 		{
 			OnPropertyChanged(nameof(Size));
-			CommandManager.InvalidateRequerySuggested();
 		}
 
 		public Garage(string name, int baseSize) : this()
@@ -110,8 +109,9 @@ namespace Model.Entities
 
 		public bool Remove(Vehicle item)
 		{
-			OnPropertyChanged(nameof(Count));
-			return _vehicles.Remove(item);
+            bool temp = _vehicles.Remove(item);
+            OnPropertyChanged(nameof(Count));
+            return temp;
 		}
 
 		public void RemoveAt(int index)

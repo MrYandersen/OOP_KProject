@@ -22,7 +22,7 @@ namespace KProject.Application.ViewModel
 
 		private XmlSerializer XmlSerializer
 		{
-			get => _xmlSerializer ?? (_xmlSerializer = new XmlSerializer(typeof(List<Garage>)));
+			get => _xmlSerializer ?? (_xmlSerializer = new XmlSerializer(typeof(ObservableCollection<Garage>)));
 		}
 		private BinaryFormatter BinaryFormatter
 		{
