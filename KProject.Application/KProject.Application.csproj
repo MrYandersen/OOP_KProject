@@ -63,6 +63,9 @@
     <Compile Include="Converter\VehicleManagementEnabledConverter.cs" />
     <Compile Include="Utils\RelayCommand.cs" />
     <Compile Include="ViewModel\MainWindowVM.cs" />
+    <Compile Include="View\GenerateRandomDataSettings.xaml.cs">
+      <DependentUpon>GenerateRandomDataSettings.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
@@ -96,6 +99,10 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="Style\DefaultStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\GenerateRandomDataSettings.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -45,9 +45,11 @@
                     <MenuItem Header="XML file" Command="{Binding SaveXMLCommand}"/>
                 </MenuItem>
             </MenuItem>
+            <MenuItem Header="Data">
+                <MenuItem Header="Generate random data" Command="{Binding GenerateData}"/>
+            </MenuItem>
             <MenuItem Header="Help">
                 <MenuItem Header="About"/>
-
             </MenuItem>
         </Menu>
 

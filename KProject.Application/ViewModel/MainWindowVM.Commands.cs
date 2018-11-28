@@ -200,5 +200,17 @@ namespace KProject.Application.ViewModel
 				}));
 			}
 		}
+
+		private ICommand _generateDataCommand;
+		public ICommand GenerateDataCommand
+		{
+			get
+			{
+				return _generateDataCommand ?? (_generateDataCommand = new RelayCommand((o) =>
+				{
+					(Garages.Source as ObservableCollection<Garage>).Clear();
+				}));
+			}
+		}
 	}
 }
