@@ -80,6 +80,8 @@ namespace Model.Entities
 			return $"{Name} ({YearOfIssue}). Cost - {Cost}";
 		}
 
+		public abstract void SetSpecialProperty(int value);
+
 		#region IXmlSerializable implementation
 		public XmlSchema GetSchema()
 		{

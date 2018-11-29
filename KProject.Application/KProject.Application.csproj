@@ -59,10 +59,11 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Converter\BoolToVisibleConverter.cs" />
     <Compile Include="Converter\VehicleIconConverter.cs" />
-    <Compile Include="Converter\VehicleManagementEnabledConverter.cs" />
     <Compile Include="Utils\RelayCommand.cs" />
     <Compile Include="ViewModel\MainWindowVM.cs" />
+    <Compile Include="ViewModel\RandomGenerationDataVM.cs" />
     <Compile Include="View\GenerateRandomDataSettings.xaml.cs">
       <DependentUpon>GenerateRandomDataSettings.xaml</DependentUpon>
     </Compile>

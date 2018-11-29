@@ -103,5 +103,10 @@ namespace Model.Entities
 			writer.WriteAttributeString("EmptyMaxSpeed", EmptyMaxSpeed.ToString());
 		}
 		#endregion
+
+		public override void SetSpecialProperty(int value)
+		{
+			LoadCapacity = value;
+		}
 	}
 }

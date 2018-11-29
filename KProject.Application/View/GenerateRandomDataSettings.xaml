@@ -3,12 +3,147 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:KProject.Application.View"
+        xmlns:viewmodels="clr-namespace:KProject.Application.ViewModel"
+        xmlns:converters="clr-namespace:KProject.Application.Converter"
         mc:Ignorable="d"
-        Title="GenerateRandomDataSettings" Height="500" Width="500" ResizeMode="NoResize">
-    <Grid>
-        <GroupBox Header="Garage generating settings.">
-            
+        Title="GenerateRandomDataSettings" Width="500" ResizeMode="NoResize" SizeToContent="Height">
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="..\Style\DefaultStyle.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <converters:BoolToVisibleConverter x:Key="visibleConverter"/>
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <Window.DataContext>
+        <viewmodels:RandomGenerationDataVM />
+    </Window.DataContext>
+
+    <StackPanel>
+        <GroupBox Header="Garage generating settings." Margin="5, 2" Padding="0, 3">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Text="Amount of garages:" Margin="3"/>
+                <StackPanel Grid.Column="1" Orientation="Horizontal" Margin="3">
+                    <TextBox Text="{Binding MinGaragesCount}" Style="{StaticResource SettingsInputFieldStyle}"/>
+                    <TextBlock Text=" — "/>
+                    <TextBox Text="{Binding MaxGaragesCount}" Style="{StaticResource SettingsInputFieldStyle}"/>
+                </StackPanel>
+
+                <TextBlock Grid.Column="2" Text="Vehicles in each garage:" Margin="3"/>
+                <StackPanel Grid.Column="3" Orientation="Horizontal" Margin="3">
+                    <TextBox Text="{Binding MinVehiclesInGarage}" Style="{StaticResource SettingsInputFieldStyle}"/>
+                    <TextBlock Text=" — "/>
+                    <TextBox Text="{Binding MaxVehiclesInGarage}" Style="{StaticResource SettingsInputFieldStyle}"/>
+                </StackPanel>
+
+                <TextBlock Grid.Row="1" Text="Garage size:" Margin="3"/>
+                <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal" Margin="3">
+                    <TextBox Text="{Binding MinGarageSize}" Style="{StaticResource SettingsInputFieldStyle}"/>
+                    <TextBlock Text=" — "/>
+                    <TextBox Text="{Binding MaxGarageSize}" Style="{StaticResource SettingsInputFieldStyle}"/>
+                </StackPanel>
+
+                <TextBlock Grid.Row="2" Text="Vehicles ratio by type:" Margin="3" VerticalAlignment="Center" />
+                <Grid Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="3">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Grid.Column="0" Orientation="Horizontal" Margin="3" HorizontalAlignment="Center">
+                        <Image Margin="3, 0" Source="../Resources/Icons/car.png" MaxWidth="25" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        <TextBox Margin="3, 0" Text="{Binding CarRatio}" Style="{StaticResource SettingsInputFieldStyle}" Height="18" VerticalAlignment="Center"/>
+                    </StackPanel>
+
+                    <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal" Margin="3" HorizontalAlignment="Center">
+                        <Image Margin="3, 0" Source="../Resources/Icons/lorry.png" MaxWidth="25" VerticalAlignment="Center"/>
+                        <TextBox Margin="3, 0" Text="{Binding LorryRatio}" Style="{StaticResource SettingsInputFieldStyle}" Height="18" VerticalAlignment="Center"/>
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="2" Orientation="Horizontal" Margin="3" HorizontalAlignment="Center">
+                        <Image Margin="3, 0" Source="../Resources/Icons/bicycle.png" MaxWidth="25" VerticalAlignment="Center"/>
+                        <TextBox Margin="3, 0" Text="{Binding BicycleRatio}" Style="{StaticResource SettingsInputFieldStyle}" Height="18" VerticalAlignment="Center"/>
+                    </StackPanel>
+
+                </Grid>
+
+            </Grid>
         </GroupBox>
-    </Grid>
+
+        <GroupBox Header="Vehicle generating settings." Margin="5, 2" Padding="0, 3">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Text="Vehicle weight:" Margin="3"/>
+                <StackPanel Grid.Column="1" Orientation="Horizontal" Margin="3">
+                    <TextBox Text="{Binding MinVehicleWeight}" Style="{StaticResource SettingsInputFieldStyle}"/>
+                    <TextBlock Text=" — "/>
+                    <TextBox Text="{Binding MaxVehicleWeight}" Style="{StaticResource SettingsInputFieldStyle}"/>
+                </StackPanel>
+
+                <TextBlock Grid.Column="2" Text="Year of issue:" Margin="3"/>
+                <StackPanel Grid.Column="3" Orientation="Horizontal" Margin="3">
+                    <TextBox Text="{Binding MinYearOfIssue}" Style="{StaticResource SettingsInputFieldStyle}"/>
+                    <TextBlock Text=" — "/>
+                    <TextBox Text="{Binding MaxYearOfIssue}" Style="{StaticResource SettingsInputFieldStyle}"/>
+                </StackPanel>
+
+                <TextBlock Grid.Row="1" Text="Vehicle cost:" Margin="3"/>
+                <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal" Margin="3">
+                    <TextBox Text="{Binding MinVehicleCost}" Style="{StaticResource SettingsInputFieldStyle}"/>
+                    <TextBlock Text=" — "/>
+                    <TextBox Text="{Binding MaxVehicleCost}" Style="{StaticResource SettingsInputFieldStyle}"/>
+                </StackPanel>
+
+                <TextBlock Grid.Row="1" Grid.Column="2" Text="Special property:" Margin="3"/>
+                <StackPanel Grid.Row="1" Grid.Column="3" Orientation="Horizontal" Margin="3">
+                    <TextBox Text="{Binding MinSP}" Style="{StaticResource SettingsInputFieldStyle}"/>
+                    <TextBlock Text=" — "/>
+                    <TextBox Text="{Binding MaxSP}" Style="{StaticResource SettingsInputFieldStyle}"/>
+                </StackPanel>
+
+                <TextBlock Grid.Row="2" Text="Empty vehicle speed:" Margin="3"/>
+                <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal" Margin="3">
+                    <TextBox Text="{Binding MinVehicleEmptySpeed}" Style="{StaticResource SettingsInputFieldStyle}"/>
+                    <TextBlock Text=" — "/>
+                    <TextBox Text="{Binding MaxVehicleEmptySpeed}" Style="{StaticResource SettingsInputFieldStyle}"/>
+                </StackPanel>
+            </Grid>
+        </GroupBox>
+
+        <ProgressBar IsIndeterminate="True" Height="3" Visibility="{Binding Path=IsFree, Converter={StaticResource visibleConverter}}"/>
+
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+            <Button Margin="5" Content="Generate" Width="70" IsDefault="True" IsEnabled="{Binding IsFree}" Command="{Binding GenerateDataCommand}"/>
+            <Button Margin="5" Content="Cancel" Width="70" IsCancel="True" IsEnabled="{Binding IsFree}"/>
+        </StackPanel>
+    </StackPanel>
 </Window>

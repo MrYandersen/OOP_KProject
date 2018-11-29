@@ -33,7 +33,7 @@ namespace Model.Entities
 				OnPropertyChanged(nameof(TotalWeight));
 			}
 		}
-		private int EmptyMaxSpeed { get; set; }
+		public int EmptyMaxSpeed { get; set; }
 		public int SeatsCount { get; set; }
 		public override int TotalWeight
 		{
@@ -95,5 +95,10 @@ namespace Model.Entities
 			writer.WriteAttributeString("EmptyMaxSpeed", EmptyMaxSpeed.ToString());
 		}
 		#endregion
+
+		public override void SetSpecialProperty(int value)
+		{
+			SeatsCount = value;
+		}
 	}
 }

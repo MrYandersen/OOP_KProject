@@ -63,6 +63,11 @@ namespace Model.Entities
 			writer.WriteAttributeString("GearsCount", GearsCount.ToString());
 		}
 		#endregion
+
+		public override void SetSpecialProperty(int value)
+		{
+			GearsCount = value;
+		}
 	}
 }
 

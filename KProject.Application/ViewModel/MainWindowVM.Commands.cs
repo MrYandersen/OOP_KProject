@@ -6,6 +6,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 using KProject.Application.Utils;
+using KProject.Application.View;
 using Microsoft.Win32;
 using Model.Entities;
 
@@ -56,7 +57,7 @@ namespace KProject.Application.ViewModel
 				return _removeVehicleCommand ?? (_removeVehicleCommand = new RelayCommand((o) =>
 				{
 					SelectedGarage.Remove(SelectedVehicle);
-				}));
+				}, (o) => SelectedVehicle != null));
 			}
 		}
 
@@ -122,7 +123,7 @@ namespace KProject.Application.ViewModel
 					{
 						using (FileStream fs = new FileStream(sfd.FileName, FileMode.Create))
 						{
-                            BinaryFormatter.Serialize(fs, Garages.Source);
+							BinaryFormatter.Serialize(fs, Garages.Source);
 						}
 					}
 
@@ -174,7 +175,7 @@ namespace KProject.Application.ViewModel
 				return _editGarageCommand ?? (_editGarageCommand = new RelayCommand((o) =>
 				{
 					UpdateEditingObject(SelectedGarage);
-				}));
+				}, (o) => SelectedGarage != null));
 			}
 		}
 
@@ -186,7 +187,7 @@ namespace KProject.Application.ViewModel
 				return _removeGarageCommand ?? (_removeGarageCommand = new RelayCommand((o) =>
 				{
 					(Garages.Source as ObservableCollection<Garage>).Remove(SelectedGarage);
-				}));
+				}, (o) => SelectedGarage != null));
 			}
 		}
 
@@ -209,7 +210,19 @@ namespace KProject.Application.ViewModel
 			{
 				return _generateDataCommand ?? (_generateDataCommand = new RelayCommand((o) =>
 				{
-					(Garages.Source as ObservableCollection<Garage>).Clear();
+					if (MessageBox.Show("All unsaved data will be deleted. Are you sure?", "Attention!", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+					{
+						GenerateRandomDataSettings window = new GenerateRandomDataSettings();
+						if(window.ShowDialog().Value)
+						{
+							ObservableCollection<Garage> temp = Garages.Source as ObservableCollection<Garage>;
+							temp.Clear();
+							foreach (var item in (window.DataContext as RandomGenerationDataVM).GeneratedData)
+							{
+								temp.Add(item);
+							}
+						}
+					}
 				}));
 			}
 		}
