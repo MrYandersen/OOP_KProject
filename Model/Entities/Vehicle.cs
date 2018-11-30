@@ -62,11 +62,12 @@ namespace Model.Entities
 		#region C-tors
 		protected Vehicle()
 		{
-
+			Logger.Log.Info("Invoked Vehicle ctor");
 		}
 
 		protected Vehicle(string name, int weight, int yearOfIssue = 2018)
 		{
+			Logger.Log.Info("Invoked Vehicle ctor with params");
 			Name = name;
 			Weight = weight;
 			YearOfIssue = yearOfIssue;

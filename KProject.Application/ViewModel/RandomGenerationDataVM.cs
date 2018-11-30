@@ -86,6 +86,7 @@ namespace KProject.Application.ViewModel
 					async (o) =>
 					{
 						IsFree = false;
+						App.Log.Info("Starting generating random data");
 						GeneratedData = await Task.Factory.StartNew(GenerateData);
 						IsFree = true;
 						CloseCurrentWindow();
@@ -123,6 +124,7 @@ namespace KProject.Application.ViewModel
 				}
 				garages.Add(g);
 			}
+			App.Log.Info($"Successfully generated {garages.Count} garages. Average count of vehicle in each garage is {garages.SelectMany(s => s).Count() / (float)garages.Count}");
 			return garages;
 		}
 

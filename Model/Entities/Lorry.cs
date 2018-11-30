@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Xml;
+using Model.Utils;
 
 namespace Model.Entities
 {
@@ -48,6 +49,7 @@ namespace Model.Entities
 		{
 			get
 			{
+				Logger.Log.Info("Getting abstract property TotalWeight from Lorry");
 				return Weight + CurrentLoad;
 			}
 		}
@@ -55,6 +57,7 @@ namespace Model.Entities
 		{
 			get
 			{
+				Logger.Log.Info("Getting abstract property MaxSpeed from Lorry");
 				return (int)(EmptyMaxSpeed - SpeedReduceFactor * (TotalWeight - Weight));
 			}
 		}
@@ -63,17 +66,19 @@ namespace Model.Entities
 		#region C-tors
 		public Lorry()
 		{
-
+			Logger.Log.Info("Invoked Lorry ctor");
 		}
 
 		public Lorry(string name, int weigth, int loadCapacity, int yearOfIssue) : base(name, weigth, yearOfIssue)
 		{
+			Logger.Log.Info("Invoked Lorry ctor with params");
 			LoadCapacity = loadCapacity;
 		}
 		#endregion
 
 		public override string GetWeigthInfo()
 		{
+			Logger.Log.Info("Invoked GetWeightInfo from Lorry");
 			return $"Weigth in the empty state - {Weight}{Environment.NewLine}Curent weight - {TotalWeight}";
 		}
 
@@ -106,6 +111,7 @@ namespace Model.Entities
 
 		public override void SetSpecialProperty(int value)
 		{
+			Logger.Log.Info("Invoking abstract method SetSpecialProperty from Lorry");
 			LoadCapacity = value;
 		}
 	}

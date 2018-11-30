@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Xml;
 using System.Xml.Schema;
+using Model.Utils;
 
 namespace Model.Entities
 {
@@ -39,6 +40,7 @@ namespace Model.Entities
 		{
 			get
 			{
+				Logger.Log.Info("Getting abstract property TotalWeight from Car");
 				return Weight + PassangersCount * AverageHumanWeight;
 			}
 		}
@@ -46,6 +48,7 @@ namespace Model.Entities
 		{
 			get
 			{
+				Logger.Log.Info("Getting abstract property MaxSpeed from Car");
 				return EmptyMaxSpeed;
 			}
 		}
@@ -54,11 +57,12 @@ namespace Model.Entities
 		#region C-tors
 		public Car()
 		{
-
+			Logger.Log.Info("Invoked Car ctor");
 		}
 
 		public Car(string name, int weight, int seatsCount, int emptyMaxSpeed, int yearOfIssue = 2018) : base(name, weight, yearOfIssue)
 		{
+			Logger.Log.Info("Invoked Car ctor with params");
 			SeatsCount = seatsCount;
 			EmptyMaxSpeed = emptyMaxSpeed;
 		}
@@ -66,6 +70,7 @@ namespace Model.Entities
 
 		public override string GetWeigthInfo()
 		{
+			Logger.Log.Info("Invoked GetWeightInfo from Car");
 			return $"Weigth in the empty state - {Weight}{Environment.NewLine}Curent weight - {TotalWeight} (average human weigth is {AverageHumanWeight})";
 		}
 
@@ -98,6 +103,7 @@ namespace Model.Entities
 
 		public override void SetSpecialProperty(int value)
 		{
+			Logger.Log.Info("Invoking abstract method SetSpecialProperty from Car");
 			SeatsCount = value;
 		}
 	}

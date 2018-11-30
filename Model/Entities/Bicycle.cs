@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Xml;
+using Model.Utils;
 
 namespace Model.Entities
 {
@@ -17,7 +18,8 @@ namespace Model.Entities
         {
             get
             {
-                return Weight + AverageHumanWeight;
+				Logger.Log.Info("Getting abstract property TotalWeight from Bicycle");
+				return Weight + AverageHumanWeight;
             }
         }
 
@@ -27,18 +29,20 @@ namespace Model.Entities
 		#region C-tors
 		public Bicycle()
         {
-
-        }
+			Logger.Log.Info("Invoked Bicycle ctor");
+		}
 
         public Bicycle(string name, int weight, int gearsCount, int yearOfIssue = 2018) : base(name, weight, yearOfIssue)
         {
-            GearsCount = gearsCount;
+			Logger.Log.Info("Invoked Bicycle ctor with params");
+			GearsCount = gearsCount;
         }
         #endregion
 
         public override string GetWeigthInfo()
         {
-            return $"Weigth in the empty state - {Weight}{Environment.NewLine}Curent weight - {TotalWeight} (average human weigth is {AverageHumanWeight})";
+			Logger.Log.Info("Invoked GetWeightInfo from Bicycle");
+			return $"Weigth in the empty state - {Weight}{Environment.NewLine}Curent weight - {TotalWeight} (average human weigth is {AverageHumanWeight})";
         }
 
         public override string ToString()
@@ -66,6 +70,7 @@ namespace Model.Entities
 
 		public override void SetSpecialProperty(int value)
 		{
+			Logger.Log.Info("Invoking abstract method SetSpecialProperty from Bicycle");
 			GearsCount = value;
 		}
 	}

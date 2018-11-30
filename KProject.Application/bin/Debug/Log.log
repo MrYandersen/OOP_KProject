@@ -1,0 +1,77 @@
+[2018-11-30 17:00:16,421] INFO  Starting application
+[2018-11-30 17:00:26,311] INFO  Starting generating random data
+[2018-11-30 17:00:26,332] INFO  Invoked Vehicle ctor
+[2018-11-30 17:00:26,357] INFO  Invoked Car ctor
+[2018-11-30 17:00:26,359] INFO  Invoking abstract method SetSpecialProperty from Car
+[2018-11-30 17:00:26,360] INFO  Invoked Vehicle ctor
+[2018-11-30 17:00:26,362] INFO  Invoked Lorry ctor
+[2018-11-30 17:00:26,364] INFO  Invoking abstract method SetSpecialProperty from Lorry
+[2018-11-30 17:00:26,365] INFO  Invoked Vehicle ctor
+[2018-11-30 17:00:26,366] INFO  Invoked Car ctor
+[2018-11-30 17:00:26,366] INFO  Invoking abstract method SetSpecialProperty from Car
+[2018-11-30 17:00:26,367] INFO  Invoked Vehicle ctor
+[2018-11-30 17:00:26,376] INFO  Invoked Lorry ctor
+[2018-11-30 17:00:26,377] INFO  Invoking abstract method SetSpecialProperty from Lorry
+[2018-11-30 17:00:26,380] INFO  Invoked Vehicle ctor
+[2018-11-30 17:00:26,382] INFO  Invoked Bicycle ctor
+[2018-11-30 17:00:26,383] INFO  Invoking abstract method SetSpecialProperty from Bicycle
+[2018-11-30 17:00:26,384] INFO  Invoked Vehicle ctor
+[2018-11-30 17:00:26,385] INFO  Invoked Lorry ctor
+[2018-11-30 17:00:26,386] INFO  Invoking abstract method SetSpecialProperty from Lorry
+[2018-11-30 17:00:26,387] INFO  Invoked Vehicle ctor
+[2018-11-30 17:00:26,388] INFO  Invoked Lorry ctor
+[2018-11-30 17:00:26,389] INFO  Invoking abstract method SetSpecialProperty from Lorry
+[2018-11-30 17:00:26,390] INFO  Invoked Vehicle ctor
+[2018-11-30 17:00:26,391] INFO  Invoked Car ctor
+[2018-11-30 17:00:26,408] INFO  Invoking abstract method SetSpecialProperty from Car
+[2018-11-30 17:00:26,409] INFO  Invoked Vehicle ctor
+[2018-11-30 17:00:26,409] INFO  Invoked Lorry ctor
+[2018-11-30 17:00:26,410] INFO  Invoking abstract method SetSpecialProperty from Lorry
+[2018-11-30 17:00:26,412] INFO  Invoked Vehicle ctor
+[2018-11-30 17:00:26,413] INFO  Invoked Bicycle ctor
+[2018-11-30 17:00:26,414] INFO  Invoking abstract method SetSpecialProperty from Bicycle
+[2018-11-30 17:00:26,414] INFO  Invoked Vehicle ctor
+[2018-11-30 17:00:26,415] INFO  Invoked Lorry ctor
+[2018-11-30 17:00:26,416] INFO  Invoking abstract method SetSpecialProperty from Lorry
+[2018-11-30 17:00:26,417] INFO  Successfully generated 2 garages. Average count of vehicle in each garage is 5.5
+[2018-11-30 17:00:27,981] INFO  Getting abstract property TotalWeight from Car
+[2018-11-30 17:00:27,987] INFO  Getting abstract property MaxSpeed from Car
+[2018-11-30 17:00:28,797] INFO  Getting abstract property TotalWeight from Car
+[2018-11-30 17:00:28,799] INFO  Getting abstract property MaxSpeed from Car
+[2018-11-30 17:00:32,708] INFO  Getting abstract property TotalWeight from Lorry
+[2018-11-30 17:00:32,715] INFO  Getting abstract property MaxSpeed from Lorry
+[2018-11-30 17:00:32,717] INFO  Getting abstract property TotalWeight from Lorry
+[2018-11-30 17:00:33,464] INFO  Removing [Vehicle ?10104599] from Garage ?1
+[2018-11-30 17:00:33,471] INFO  Getting abstract property TotalWeight from Bicycle
+[2018-11-30 17:00:34,184] INFO  Removing [Vehicle ?51288387] from Garage ?1
+[2018-11-30 17:00:34,193] INFO  Getting abstract property TotalWeight from Lorry
+[2018-11-30 17:00:34,196] INFO  Getting abstract property MaxSpeed from Lorry
+[2018-11-30 17:00:34,197] INFO  Getting abstract property TotalWeight from Lorry
+[2018-11-30 17:00:34,713] INFO  Garage ?1 was cleared
+[2018-11-30 17:00:35,440] INFO  Getting abstract property TotalWeight from Lorry
+[2018-11-30 17:00:35,444] INFO  Getting abstract property MaxSpeed from Lorry
+[2018-11-30 17:00:35,446] INFO  Getting abstract property TotalWeight from Lorry
+[2018-11-30 17:00:39,002] INFO  Adding [Car] in a Garage ?1
+[2018-11-30 17:00:39,003] INFO  Invoked Vehicle ctor
+[2018-11-30 17:00:39,004] INFO  Invoked Car ctor
+[2018-11-30 17:00:39,008] INFO  Getting abstract property TotalWeight from Car
+[2018-11-30 17:00:39,011] INFO  Getting abstract property MaxSpeed from Car
+[2018-11-30 17:00:39,768] INFO  Adding [Lorry] in a Garage ?1
+[2018-11-30 17:00:39,769] INFO  Invoked Vehicle ctor
+[2018-11-30 17:00:39,771] INFO  Invoked Lorry ctor
+[2018-11-30 17:00:39,786] INFO  Getting abstract property TotalWeight from Lorry
+[2018-11-30 17:00:39,789] INFO  Getting abstract property MaxSpeed from Lorry
+[2018-11-30 17:00:39,790] INFO  Getting abstract property TotalWeight from Lorry
+[2018-11-30 17:00:40,472] INFO  Adding [Bicycle] in a Garage ?1
+[2018-11-30 17:00:40,474] INFO  Invoked Vehicle ctor
+[2018-11-30 17:00:40,475] INFO  Invoked Bicycle ctor
+[2018-11-30 17:00:40,482] INFO  Getting abstract property TotalWeight from Bicycle
+[2018-11-30 17:00:41,424] INFO  Adding [Car] in a Garage ?1
+[2018-11-30 17:00:41,426] INFO  Invoked Vehicle ctor
+[2018-11-30 17:00:41,427] INFO  Invoked Car ctor
+[2018-11-30 17:00:41,433] INFO  Getting abstract property TotalWeight from Car
+[2018-11-30 17:00:41,435] INFO  Getting abstract property MaxSpeed from Car
+[2018-11-30 17:00:42,288] INFO  Removing [] from Garage ?1
+[2018-11-30 17:00:42,295] INFO  Getting abstract property TotalWeight from Bicycle
+[2018-11-30 17:00:42,873] INFO  Garage ?1 was cleared
+[2018-11-30 17:00:43,769] INFO  Cleaning current garage collection

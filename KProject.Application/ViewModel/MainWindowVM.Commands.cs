@@ -24,6 +24,7 @@ namespace KProject.Application.ViewModel
 					try
 					{
 						Vehicle temp = null;
+						App.Log.Info($"Adding [{o}] in a {SelectedGarage.Name}");
 						switch (o as string)
 						{
 							case "Car":
@@ -42,6 +43,7 @@ namespace KProject.Application.ViewModel
 					}
 					catch (Exception ex)
 					{
+						App.Log.Error(ex.Message);
 						MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
 					}
 
@@ -56,6 +58,7 @@ namespace KProject.Application.ViewModel
 			{
 				return _removeVehicleCommand ?? (_removeVehicleCommand = new RelayCommand((o) =>
 				{
+					App.Log.Info($"Removing [{SelectedVehicle.Name}] from {SelectedGarage.Name}");
 					SelectedGarage.Remove(SelectedVehicle);
 				}, (o) => SelectedVehicle != null));
 			}
@@ -69,6 +72,7 @@ namespace KProject.Application.ViewModel
 				return _clearVehiclesCommand ?? (_clearVehiclesCommand = new RelayCommand((o) =>
 				{
 					SelectedGarage.Clear();
+					App.Log.Info($"{SelectedGarage.Name} was cleared");
 				}));
 			}
 		}
@@ -86,6 +90,7 @@ namespace KProject.Application.ViewModel
 						ofd.Filter = "Any available files|*bin;*.xml|Binary files|*.bin|XML files|*.xml";
 						if (ofd.ShowDialog().Value == true)
 						{
+							App.Log.Info($"Start loading data from {ofd.FileName}");
 							if (ofd.FileName.EndsWith("xml"))
 							{
 								using (FileStream fs = new FileStream(ofd.FileName, FileMode.Open))
@@ -102,8 +107,9 @@ namespace KProject.Application.ViewModel
 							}
 						}
 					}
-					catch (Exception)
+					catch (Exception ex)
 					{
+						App.Log.Error($"Cannot load file. {ex.Message}");
 						MessageBox.Show("An error occurred while reading the file. The file may have been damaged.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
 					}
 				}));
@@ -121,12 +127,12 @@ namespace KProject.Application.ViewModel
 					sfd.Filter = "Binary files|*.bin";
 					if (sfd.ShowDialog().Value == true)
 					{
+						App.Log.Info($"Start saving data in binary file [{sfd.FileName}].");
 						using (FileStream fs = new FileStream(sfd.FileName, FileMode.Create))
 						{
 							BinaryFormatter.Serialize(fs, Garages.Source);
 						}
 					}
-
 				}));
 			}
 		}
@@ -142,6 +148,7 @@ namespace KProject.Application.ViewModel
 					sfd.Filter = "XML files|*.xml";
 					if (sfd.ShowDialog().Value == true)
 					{
+						App.Log.Info($"Start saving data in XML file [{sfd.FileName}].");
 						using (FileStream fs = new FileStream(sfd.FileName, FileMode.Create))
 						{
 							XmlSerializer.Serialize(fs, Garages.Source);
@@ -161,6 +168,7 @@ namespace KProject.Application.ViewModel
 				{
 					Garage g = new Garage("Unnamed", 5);
 					(Garages.Source as ObservableCollection<Garage>).Add(g);
+					App.Log.Info($"Added new garage");
 					SelectedGarage = g;
 					UpdateEditingObject(g);
 				}));
@@ -186,6 +194,7 @@ namespace KProject.Application.ViewModel
 			{
 				return _removeGarageCommand ?? (_removeGarageCommand = new RelayCommand((o) =>
 				{
+					App.Log.Info($"Removing garage {SelectedGarage.Name}");
 					(Garages.Source as ObservableCollection<Garage>).Remove(SelectedGarage);
 				}, (o) => SelectedGarage != null));
 			}
@@ -198,6 +207,7 @@ namespace KProject.Application.ViewModel
 			{
 				return _clearGaragesCommand ?? (_clearGaragesCommand = new RelayCommand((o) =>
 				{
+					App.Log.Info($"Cleaning current garage collection");
 					(Garages.Source as ObservableCollection<Garage>).Clear();
 				}));
 			}
