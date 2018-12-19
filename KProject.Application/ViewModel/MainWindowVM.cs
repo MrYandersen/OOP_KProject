@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Reflection;
@@ -12,13 +11,14 @@ using Model.Utils;
 
 namespace KProject.Application.ViewModel
 {
-	partial class MainWindowVM : ObservableObject
+    partial class MainWindowVM : ObservableObject
 	{
 		private Garage _selectedGarage;
 		private Vehicle _selectedVehicle;
 		private XmlSerializer _xmlSerializer;
 		private BinaryFormatter _binaryFormatter;
 		private static object _editingObject;
+        private FilterSettingsVM _filterSettingsVM;
 
 		private XmlSerializer XmlSerializer
 		{
@@ -85,6 +85,7 @@ namespace KProject.Application.ViewModel
 			//g.Add(new Car("BestCar", 2354, 154, 4));
 			//g.Add(new Bicycle("BestCar", 7, 18));
 			Garages.Source = new ObservableCollection<Garage>();
+            _filterSettingsVM = new FilterSettingsVM(this);
 			//Vehicles.Source = new Vehicle[] { new Car("BestCar", 2354, 154, 4), new Lorry("Big lorry", 5874, 2800, 2006) };
 		}
 

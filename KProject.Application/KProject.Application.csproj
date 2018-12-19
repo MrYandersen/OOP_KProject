@@ -64,9 +64,20 @@
     </Compile>
     <Compile Include="Converter\BoolToVisibleConverter.cs" />
     <Compile Include="Converter\VehicleIconConverter.cs" />
+    <Compile Include="Filters\ExactFilterToken.cs" />
+    <Compile Include="Filters\ExactTokens\CostExactToken.cs" />
+    <Compile Include="Filters\ExactTokens\NameToken.cs" />
+    <Compile Include="Filters\ExactTokens\YearOfIssueExactToken.cs" />
+    <Compile Include="Filters\FilterToken.cs" />
+    <Compile Include="Filters\RangeFilterToken.cs" />
+    <Compile Include="Filters\RangeTokens\YearOfIssueRangeToken.cs" />
     <Compile Include="Utils\RelayCommand.cs" />
+    <Compile Include="ViewModel\FilterSettingsVM.cs" />
     <Compile Include="ViewModel\MainWindowVM.cs" />
     <Compile Include="ViewModel\RandomGenerationDataVM.cs" />
+    <Compile Include="View\FilterSettings.xaml.cs">
+      <DependentUpon>FilterSettings.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\GenerateRandomDataSettings.xaml.cs">
       <DependentUpon>GenerateRandomDataSettings.xaml</DependentUpon>
     </Compile>
@@ -107,6 +118,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\FilterSettings.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\GenerateRandomDataSettings.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -122,7 +137,9 @@
       <Name>Model</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Resources\Icons\arrow_up_green.png" />
+  </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Icons\bicycle.png" />
     <Resource Include="Resources\Icons\car.png" />

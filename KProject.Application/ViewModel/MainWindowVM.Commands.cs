@@ -226,6 +226,7 @@ namespace KProject.Application.ViewModel
 						if(window.ShowDialog().Value)
 						{
 							ObservableCollection<Garage> temp = Garages.Source as ObservableCollection<Garage>;
+                            Garages.View.Filter = null;
 							temp.Clear();
 							foreach (var item in (window.DataContext as RandomGenerationDataVM).GeneratedData)
 							{
@@ -236,5 +237,18 @@ namespace KProject.Application.ViewModel
 				}));
 			}
 		}
-	}
+
+        private ICommand _openFilterSettings;
+        public ICommand OpenFilterSettings
+        {
+            get
+            {
+                return _openFilterSettings ?? (_openFilterSettings = new RelayCommand((o) =>
+                {
+                    FilterSettings window = new FilterSettings() { DataContext = _filterSettingsVM };
+                    window.ShowDialog();
+                }));
+            }
+        }
+    }
 }

@@ -1,18 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+
 using KProject.Application.Utils;
+
 using Model.Entities;
 using Model.Utils;
 
 namespace KProject.Application.ViewModel
 {
-	class RandomGenerationDataVM : ObservableObject
+    class RandomGenerationDataVM : ObservableObject
 	{
 		#region Fields
 		private bool _isFree = true;
@@ -97,6 +97,7 @@ namespace KProject.Application.ViewModel
 		private void CloseCurrentWindow()
 		{
 			var windows = App.Current.Windows.OfType<Window>();
+
 			foreach (var item in windows)
 			{
 				if (item.IsActive)

@@ -46,6 +46,7 @@
             </MenuItem>
             <MenuItem Header="Data">
                 <MenuItem Header="Generate random data" Command="{Binding GenerateDataCommand}"/>
+                <MenuItem Header="Filter settings" Command="{Binding OpenFilterSettings}"/>
             </MenuItem>
             <MenuItem Header="Help">
                 <MenuItem Header="About"/>
@@ -62,15 +63,21 @@
         <ListBox Grid.Row="3" Margin="5, 0, 5, 5" ItemsSource="{Binding Garages.View}" SelectedValue="{Binding Path=SelectedGarage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <TextBlock VerticalAlignment="Center" Margin="3, 0">
-                        <TextBlock.Text>
-                            <MultiBinding StringFormat="{}{0} [{1} / {2}]">
-                                <Binding Path="Name"/>
-                                <Binding Path="Count"/>
-                                <Binding Path="Size"/>
-                            </MultiBinding>
-                        </TextBlock.Text>
-                    </TextBlock>
+                    <Grid VerticalAlignment="Stretch">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock VerticalAlignment="Center" Margin="3, 0">
+                            <TextBlock.Text>
+                                <MultiBinding StringFormat="{}{0} [{1} / {2}]">
+                                    <Binding Path="Name"/>
+                                    <Binding Path="Count"/>
+                                    <Binding Path="Size"/>
+                                </MultiBinding>
+                            </TextBlock.Text>
+                        </TextBlock>
+                    </Grid>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
